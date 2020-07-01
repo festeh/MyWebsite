@@ -1,1 +1,83 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dima Lipin</title><link>https://dimalip.in/</link><description>Dima Lipin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://dimalip.in/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://dimalip.in/about/</link><pubDate>Sun, 28 Jun 2020 00:00:00 +0000</pubDate><guid>https://dimalip.in/about/</guid><description>&lt;p>Hi! My name is Dima. I&amp;rsquo;m a Machine Learning Engineer. I&amp;rsquo;m interested in Natural Language Processing and in Reinforcement Learning.&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dima Lipin</title><link>https://dimalip.in/</link><description>Dima Lipin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 01 Jul 2020 12:52:57 +0300</lastBuildDate><atom:link href="https://dimalip.in/index.xml" rel="self" type="application/rss+xml"/><item><title>Creating a personal website from scratch</title><link>https://dimalip.in/post/new_site/</link><pubDate>Wed, 01 Jul 2020 12:52:57 +0300</pubDate><guid>https://dimalip.in/post/new_site/</guid><description>&lt;h1 id="introduction">Introduction&lt;/h1>
+&lt;p>One day I came up with an idea to create a technical blog to share knowledge with the world. While the most obvious idea is to use Medium, I don't like it very much because of it nagging &amp;quot;3 free articles per month&amp;quot;. Besides, while there are so many people writing about Machine Learning there, site owners cannot simply allow to write LaTeX formulas, without tricks like pasting images with formulas. So I decided to create a personal website.
+&lt;span class="math">\(\mathcal{L}_{D}^{GAN} =
+\mathbb{E}_{x \sim p_{d}}[\log D(x)] - \mathbb{E}_{\hat x \sim p_{g}}[\log (1 - D(\hat x))]
+\)&lt;/span> - take this, Medium!&lt;/p>
+&lt;p>There are a plenty options that will generate your site in seconds like Wordpress, but as Fred Durst told us:
+&lt;blockquote>
+If you want something done right - you just do it yourself.
+&lt;/blockquote>
+so I advise you to take a strong and independent way and use &lt;a href="https://gohugo.io/">Hugo&lt;/a> static site generator. A week ago I was a complete noob and had no clue about how to generate a website and host it. I'm still a noob but at least I read some tutorials. &lt;a href="https://www.toptal.com/github/unlimited-scale-web-hosting-github-pages-cloudflare">This&lt;/a> and &lt;a href="https://medium.com/@asishrs/automate-your-github-pages-deployment-using-hugo-and-actions-518b959a51f9">this&lt;/a> helped me a lot and this post basically combines them into one, but additionally it contains some fixes that I had to add so everything started to work properly.&lt;/p>
+&lt;h1 id="creating-site-content-with-hugo">Creating site content with Hugo&lt;/h1>
+&lt;p>Hugo allows you to generate plain html files that you can place on a webserver. So your site will be static and all interaction with users should be done via JavaScript. For example, if you want to add comments, you can embed &lt;a href="https://help.disqus.com/en/articles/1717112-universal-embed-code">Disqus&lt;/a> code on your pages.
+Hugo is easy to start with - just watch some tutorials (I watched &lt;a href="https://www.mikedane.com/static-site-generators/hugo/">this&lt;/a> series), pick a &lt;a href="https://themes.gohugo.io/">theme&lt;/a> and you're good to (hu)go! After you add some content to your site, initialize a git repository in the root folder and push it to GitHub.&lt;/p>
+&lt;h1 id="automatically-deploy-your-website-to-github-pages">Automatically deploy your website to GitHub Pages&lt;/h1>
+&lt;p>I believe that deployment should be automated as much as possible. Ideally, when you add some changes to your website and push them to remote repository (let's call it source), your website should magically update itself. And &lt;a href="https://github.com/features/actions">GitHub Actions&lt;/a> is a secret sauce that we need. We want to construct a pipeline that works on a remote server and do these steps on a push to source repository&lt;/p>
+&lt;ol>
+&lt;li>Downloads source repository&lt;/li>
+&lt;li>Installs hugo&lt;/li>
+&lt;li>Builds site with hugo&lt;/li>
+&lt;li>Pushes generated files to another repository (target)&lt;/li>
+&lt;/ol>
+&lt;p>Then you can use GitHub Pages to host your static website from a target repository. GitHub pages allows free hosting for websites with some constraints (target repository size should be &lt;span class="math">\(\le \)&lt;/span> 1GB, bandwidth is &lt;span class="math">\(\le\)&lt;/span> 100GB/month, your repository will be publicly visible), but they are totally feasible for a personal blog.&lt;/p>
+&lt;h1 id="deploying-instruction">Deploying instruction&lt;/h1>
+&lt;p>First, create a new repository on GitHub (let's call it target) with arbitrary name.&lt;/p>
+&lt;p>Then create a SSH key pair by entering this command in terminal
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ ssh-keygen -t rsa -b &lt;span style="color:#ae81ff">4096&lt;/span> -C &lt;span style="color:#e6db74">&amp;#34;[YOUR EMAIL]&amp;#34;&lt;/span> -f githubpages&lt;/code>&lt;/pre>&lt;/div>
+This will create &lt;code>githubpages&lt;/code> and &lt;code>githubpages.pub&lt;/code> files in your directory.&lt;/p>
+&lt;p>Now open settings of your target repository on GitHub and go into &lt;code>Deploy keys&lt;/code>. Click &lt;code>Add deploy key&lt;/code>, set the title to your favorite dog name (or any arbitrary string) and paste the content of
+&lt;code>githubpages&lt;/code> into &lt;code>Key&lt;/code> field. Don't forget to tick &lt;code>Allow write access&lt;/code>. Click &lt;code>Add key&lt;/code>. You'll see something like this
+&lt;figure>&lt;img src="https://dimalip.in/new_site/deploykey.png" alt="Deploykey">&lt;/figure>
+(your fingerprint may differ)&lt;/p>
+&lt;p>Then go into source repository settings, click &lt;code>Secrets&lt;/code>, then &lt;code>New Secret&lt;/code>, name it &lt;code>ACTIONS_DEPLOY_KEY&lt;/code> and paste the contents of &lt;code>githubpages.pub&lt;/code> into &lt;code>value&lt;/code> to see this picture &lt;figure>&lt;img src="https://dimalip.in/new_site/secretkey.png" alt="Secret">&lt;/figure>&lt;/p>
+&lt;p>Finally create a file &lt;code>.github/workflows/pages.yml&lt;/code> in the root directory of your source repository with the following content&lt;/p>
+&lt;p>&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#66d9ef">name&lt;/span>: publish hugo site
+&lt;span style="color:#66d9ef">on&lt;/span>:
+&lt;span style="color:#66d9ef">push&lt;/span>:
+&lt;span style="color:#66d9ef">branches&lt;/span>:
+- master
+&lt;span style="color:#66d9ef">jobs&lt;/span>:
+&lt;span style="color:#66d9ef">build-deploy&lt;/span>:
+&lt;span style="color:#66d9ef">runs-on&lt;/span>: ubuntu&lt;span style="color:#ae81ff">-18.04&lt;/span>
+&lt;span style="color:#66d9ef">steps&lt;/span>:
+- &lt;span style="color:#66d9ef">uses&lt;/span>: actions/checkout@v2
+- &lt;span style="color:#66d9ef">name&lt;/span>: Setup Hugo
+&lt;span style="color:#66d9ef">uses&lt;/span>: peaceiris/actions-hugo@v2
+&lt;span style="color:#66d9ef">with&lt;/span>:
+&lt;span style="color:#66d9ef">hugo-version&lt;/span>: &lt;span style="color:#e6db74">&amp;#39;latest&amp;#39;&lt;/span>
+- &lt;span style="color:#66d9ef">name&lt;/span>: Build
+&lt;span style="color:#66d9ef">run&lt;/span>: HUGO_ENV=production hugo --minify
+- &lt;span style="color:#66d9ef">name&lt;/span>: Deploy
+&lt;span style="color:#66d9ef">uses&lt;/span>: peaceiris/actions-gh-pages@v3
+&lt;span style="color:#66d9ef">with&lt;/span>:
+&lt;span style="color:#66d9ef">deploy_key&lt;/span>: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+&lt;span style="color:#66d9ef">commit_message&lt;/span>: ${{ github.event.head_commit.message }}
+&lt;span style="color:#66d9ef">publish_dir&lt;/span>: ./public
+&lt;span style="color:#66d9ef">publish_branch&lt;/span>: master
+&lt;span style="color:#66d9ef">external_repository&lt;/span>: [YOUR GITHUB USERNAME]/[YOUR TARGET REPOSITORY NAME]&lt;/code>&lt;/pre>&lt;/div>
+(don't forget to replace with yours credentials)&lt;/p>
+&lt;p>Push it to source repository and behold how your target will magically update! The final step here is to enable GitHub Pages hosting. Go to the settings of the target repostory, scroll down to &lt;code>GitHub Pages&lt;/code> and select &lt;code>master&lt;/code> branch under &lt;code>source&lt;/code>. If you'd like to enable CloudFlare proxy (in the next section) make sure to tick off &lt;code>Enforce HTTPS&lt;/code>, as CloudFlare would provide you another free SSL certificate and somehow it &lt;a href="https://community.cloudflare.com/t/github-pages-require-disabling-cfs-http-proxy/147401">doesn't play nicely&lt;/a> with the certificate that GitHub will provide you.
+After that you'll see a message &amp;quot;Your site is ready to be published at [LINK]&amp;quot;. Click it and enjoy!&lt;/p>
+&lt;h1 id="custom-domain-and-cdnssl-support-with-cloudflare">Custom domain and CDN+SSL support with CloudFlare&lt;/h1>
+&lt;p>The site kinda works and magically updates, but the domain&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;code>[YOUR GITHUB USERNAME].github.io/[YOUR TARGET REPOSITORY NAME]&lt;/code>&lt;/p>
+&lt;/blockquote>
+&lt;p>defines you as a person worse than a custom domain name like
+&lt;span style="color:green;">https://iam.irish&lt;/span>.
+Also the bandwidth constraint can become a problem, so it would be great to use a CDN provider that will cache most requests to your website and also make it more available to the world. And thankfully CloudFlare gives us that chance. In this section I'll tell about adding a fancy domain name and using CloudFlare proxy.&lt;/p>
+&lt;p>Nowadays there are a lot of domain registrars that enable you to rent a domain name for few years, choose one that will have the most nice price - this is the only thing for which you'll probably need to pay, but some cool name should worth it! After you rented a domain [YOUR DOMAIN NAME] make the following change to &lt;code>Deploy&lt;/code> step in &lt;code>pages.yml&lt;/code> file.
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml"> &lt;span style="color:#66d9ef">with&lt;/span>:
+&lt;span style="color:#66d9ef">cname&lt;/span>: [YOUR DOMAIN NAME]
+&lt;span style="color:#66d9ef">deploy_key&lt;/span>: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+&lt;span style="color:#66d9ef">commit_message&lt;/span>: ${{ github.event.head_commit.message }}
+&lt;span style="color:#66d9ef">publish_dir&lt;/span>: ./public
+&lt;span style="color:#66d9ef">publish_branch&lt;/span>: master
+&lt;span style="color:#66d9ef">external_repository&lt;/span>: [YOUR GITHUB USERNAME]/[YOUR TARGET REPOSITORY NAME]&lt;/code>&lt;/pre>&lt;/div>&lt;/p>
+&lt;p>After that register on CloudFlare, click &lt;code>Add Site&lt;/code>, enter [YOUR DOMAIN ADDRESS] - CloudFlare will setup DNS records for you like this
+&lt;figure>&lt;img src="https://dimalip.in/new_site/cflare.png" alt="cflare">&lt;/figure>&lt;/p>
+&lt;p>Then set SSL mode to &amp;quot;Full (strict)&amp;quot; for better security.
+The last step is to add CloudFlare nameservers in the dashboard of your domain registrar - for Hostinger provider the form is this
+&lt;figure>&lt;img src="https://dimalip.in/new_site/hostinger.png" alt="hostinger">&lt;/figure>&lt;/p>
+&lt;p>After some time your site should be available at [YOUR DOMAIN NAME]. Hooray!&lt;/p>
+&lt;p>If you got any issues on some step feel free to ask me - we'll search for a solution on Google together.&lt;/p></description></item><item><title>About</title><link>https://dimalip.in/about/</link><pubDate>Sun, 28 Jun 2020 00:00:00 +0000</pubDate><guid>https://dimalip.in/about/</guid><description>&lt;p>Hi! My name is Dima. I&amp;rsquo;m a Machine Learning Engineer. I&amp;rsquo;m interested in Natural Language Processing and in Reinforcement Learning.&lt;/p></description></item></channel></rss>
