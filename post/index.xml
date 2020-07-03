@@ -27,9 +27,15 @@ Hugo is easy to start with - just watch some tutorials (I watched &lt;a href="ht
 This will create &lt;code>githubpages&lt;/code> and &lt;code>githubpages.pub&lt;/code> files in your directory.&lt;/p>
 &lt;p>Now open settings of your target repository on GitHub and go into &lt;code>Deploy keys&lt;/code>. Click &lt;code>Add deploy key&lt;/code>, set the title to your favorite dog name (or any arbitrary string) and paste the content of
 &lt;code>githubpages&lt;/code> into &lt;code>Key&lt;/code> field. Don't forget to tick &lt;code>Allow write access&lt;/code>. Click &lt;code>Add key&lt;/code>. You'll see something like this
-&lt;figure>&lt;img src="https://dimalip.in/new_site/deploykey.png" alt="Deploykey">&lt;/figure>
+&lt;figure >
+&lt;img class="lazyload" data-src="https://dimalip.in/new_site/deploykey.png" />
+&lt;/figure>
 (your fingerprint may differ)&lt;/p>
-&lt;p>Then go into source repository settings, click &lt;code>Secrets&lt;/code>, then &lt;code>New Secret&lt;/code>, name it &lt;code>ACTIONS_DEPLOY_KEY&lt;/code> and paste the contents of &lt;code>githubpages.pub&lt;/code> into &lt;code>value&lt;/code> and click &lt;code>Add&lt;/code> - you'll see this &lt;figure>&lt;img src="https://dimalip.in/new_site/secretkey.png" alt="Secret">&lt;/figure>&lt;/p>
+&lt;p>Then go into source repository settings, click &lt;code>Secrets&lt;/code>, then &lt;code>New Secret&lt;/code>, name it &lt;code>ACTIONS_DEPLOY_KEY&lt;/code> and paste the contents of &lt;code>githubpages.pub&lt;/code> into &lt;code>value&lt;/code> and click &lt;code>Add&lt;/code> - you'll see this
+&lt;figure >
+&lt;img class="lazyload" data-src="https://dimalip.in/new_site/secretkey.png" />
+&lt;/figure>
+&lt;/p>
 &lt;p>Now create a file &lt;code>.github/workflows/pages.yml&lt;/code> in the root directory of your source repository with the following content&lt;/p>
 &lt;p>&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#66d9ef">name&lt;/span>: publish hugo site
 &lt;span style="color:#66d9ef">on&lt;/span>:
@@ -75,9 +81,15 @@ Also the bandwidth constraint can become a problem, so it would be great to use 
 &lt;span style="color:#66d9ef">publish_branch&lt;/span>: master
 &lt;span style="color:#66d9ef">external_repository&lt;/span>: [YOUR GITHUB USERNAME]/[YOUR TARGET REPOSITORY NAME]&lt;/code>&lt;/pre>&lt;/div>&lt;/p>
 &lt;p>After that, register on CloudFlare, click &lt;code>Add Site&lt;/code>, enter [YOUR DOMAIN NAME] - CloudFlare will setup DNS records for you
-&lt;figure>&lt;img src="https://dimalip.in/new_site/cflare.png" alt="cflare">&lt;/figure>&lt;/p>
+&lt;figure >
+&lt;img class="lazyload" data-src="https://dimalip.in/new_site/cflare.png" />
+&lt;/figure>
+&lt;/p>
 &lt;p>Then set SSL mode to &amp;quot;Full (strict)&amp;quot; for better security.
 The last step is to add CloudFlare nameservers in the dashboard of your domain registrar - for Hostinger provider the form looks like this
-&lt;figure>&lt;img src="https://dimalip.in/new_site/hostinger.png" alt="hostinger">&lt;/figure>&lt;/p>
+&lt;figure >
+&lt;img class="lazyload" data-src="https://dimalip.in/new_site/hostinger.png" />
+&lt;/figure>
+&lt;/p>
 &lt;p>After some time your, site should become available at [YOUR DOMAIN NAME]. Hooray!&lt;/p>
 &lt;p>If you got any issues on any step, feel free to ask me - we'll search for a solution with Google together.&lt;/p></description></item></channel></rss>
